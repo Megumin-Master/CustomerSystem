@@ -69,7 +69,9 @@ class CustomerSystem{
     * The method may not nesessarily be a void return type
     * This method may also be broken down further depending on your algorithm
     */
-    public static void validatePostalCode(){
+    public static void validatePostalCode(String postalCode){
+        //This is the method to check if the postal code is validated or not
+        //If not validated, it will ask for another proper postal code
     }
     /*
     * This method may be edited to achieve the task however you like.
