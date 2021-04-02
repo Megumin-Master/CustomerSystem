@@ -33,6 +33,11 @@ class CustomerSystem{
                 // Only the line below may be editted based on the parameter list and how you design the method return
                 generateCustomerDataFile();
             }
+            else if(userInput.equals(exitCondition)){
+                //Conditional that makes sure that when selecting 9, the last else statement isn't called
+                //else if this conditional is met, skip the last else statement.
+                System.out.println("Thank you for your services, the program will now terminate.");
+            }
             else{
                 System.out.println("Please type in a valid option (A number from 1-9)");
             }
