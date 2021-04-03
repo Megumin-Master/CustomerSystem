@@ -6,6 +6,8 @@ package Luhn;
 import java.util.Scanner;
 // More packages may be imported in the space below
 
+import java.io.*;
+
 class CustomerSystem{
     public static void main(String[] args){
         // Please do not edit any of these variables
@@ -27,6 +29,10 @@ class CustomerSystem{
 		        // Any necessary variables may be added to this if section, but nowhere else in the code
                 
                 enterCustomerInfo();
+
+                String postalCode = validatePostalCode("t00dis", reader);
+
+                System.out.println(postalCode);
             }
             else if (userInput.equals(generateCustomerOption)) {
                 // Only the line below may be editted based on the parameter list and how you design the method return
@@ -69,25 +75,51 @@ class CustomerSystem{
 
     * postalCode is the string value of the postal code inputted by the user
     */
-    public static String validatePostalCode(String postalCode){
+    public static String validatePostalCode(String postalCode, Scanner reader){
         //The conditonals for the postal code is that it must be at least 3 characters and must be in the postal_codes.csv
         
-        //Initialize Packages
-        Scanner reader = new Scanner(System.in);
-        
-        //Find length of the postal code
+        //Find variables
         int length = postalCode.length();
 
-        if(length < 2){
-            System.out.print("Invalid Postal Code. Please input another postal code: ");
+        String file = "postal_codes.csv";
+        String line = "";
 
-            postalCode = reader.nextLine();
+        boolean works = false;
+        
+        
+        try{
+            BufferedReader csvReader = new BufferedReader(new FileReader(file));
 
-            //Loop this method until a proper postal code is given.
-            postalCode = validatePostalCode(postalCode);
+            while((line = csvReader.readLine()) != null){
+                
+                if(length > 2 && (line.substring(0,3).equals((postalCode.substring(0,3)).toUpperCase()))){
+                    //The user has inputted a correct postal code.
+                    works = true;
+                }
+            
+
+            }
+
+            if(works == false){
+                System.out.print("Invalid Postal Code. Please input another postal code: ");
+        
+                postalCode = reader.nextLine();
+    
+                //Loop this method until a proper postal code is given.
+                postalCode = validatePostalCode(postalCode, reader);
+
+            }
+
+            csvReader.close();
+
+        }
+        catch(FileNotFoundException e) {
+            System.out.println("File not found");
+        }
+        catch(IOException e){
+            System.out.println("IOException error");
         }
 
-        reader.close();
 
         return postalCode;
     }
