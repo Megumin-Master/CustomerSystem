@@ -3,8 +3,6 @@ package Luhn;
 // Throughout this project, the use of data structures are not permitted such as methods like .split and .toCharArray
 
 
-
-
 import java.util.Scanner;
 // More packages may be imported in the space below
 
@@ -27,6 +25,7 @@ class CustomerSystem{
             if (userInput.equals(enterCustomerOption)){
                 // Only the line below may be editted based on the parameter list and how you design the method return
 		        // Any necessary variables may be added to this if section, but nowhere else in the code
+                
                 enterCustomerInfo();
             }
             else if (userInput.equals(generateCustomerOption)) {
@@ -65,13 +64,32 @@ class CustomerSystem{
     public static void enterCustomerInfo() {
     }
     /*
-    * This method may be edited to achieve the task however you like.
-    * The method may not nesessarily be a void return type
-    * This method may also be broken down further depending on your algorithm
+    * This is the method to check if the postal code is validated or not
+    * If not validated, it will ask for another proper postal code
+
+    * postalCode is the string value of the postal code inputted by the user
     */
-    public static void validatePostalCode(String postalCode){
-        //This is the method to check if the postal code is validated or not
-        //If not validated, it will ask for another proper postal code
+    public static String validatePostalCode(String postalCode){
+        //The conditonals for the postal code is that it must be at least 3 characters and must be in the postal_codes.csv
+        
+        //Initialize Packages
+        Scanner reader = new Scanner(System.in);
+        
+        //Find length of the postal code
+        int length = postalCode.length();
+
+        if(length < 2){
+            System.out.print("Invalid Postal Code. Please input another postal code: ");
+
+            postalCode = reader.nextLine();
+
+            //Loop this method until a proper postal code is given.
+            postalCode = validatePostalCode(postalCode);
+        }
+
+        reader.close();
+
+        return postalCode;
     }
     /*
     * This method may be edited to achieve the task however you like.
