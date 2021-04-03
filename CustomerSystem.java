@@ -30,9 +30,11 @@ class CustomerSystem{
                 
                 enterCustomerInfo();
 
+                /* The following is a test to make sure that the postal code validation works as planned.
                 String postalCode = validatePostalCode("t00dis", reader);
 
                 System.out.println(postalCode);
+                */
             }
             else if (userInput.equals(generateCustomerOption)) {
                 // Only the line below may be editted based on the parameter list and how you design the method return
@@ -78,20 +80,25 @@ class CustomerSystem{
     public static String validatePostalCode(String postalCode, Scanner reader){
         //The conditonals for the postal code is that it must be at least 3 characters and must be in the postal_codes.csv
         
-        //Find variables
+        //The length of the postal code to make sure it's longer than 3 characters
         int length = postalCode.length();
-
+        //The string for the file location
         String file = "postal_codes.csv";
+        //The line of the csv file. Will change so it's empty now.
         String line = "";
 
+        //The boolean that determines whether the postal code is valid or not.
         boolean works = false;
         
-        
+        //To make sure that the file called is correct and no other errors are made
         try{
+            //Reads the csv file one line at a time
             BufferedReader csvReader = new BufferedReader(new FileReader(file));
 
+            //until a line of the csv is empty
             while((line = csvReader.readLine()) != null){
                 
+                //if the postal code is 3 or more characters long and the first 3 characters are found in the first 3 characters in the line of the csv
                 if(length > 2 && (line.substring(0,3).equals((postalCode.substring(0,3)).toUpperCase()))){
                     //The user has inputted a correct postal code.
                     works = true;
@@ -99,7 +106,7 @@ class CustomerSystem{
             
 
             }
-
+            //if it's an invalid postal code, input another postal code and validate it again.
             if(works == false){
                 System.out.print("Invalid Postal Code. Please input another postal code: ");
         
@@ -111,7 +118,6 @@ class CustomerSystem{
             }
 
             csvReader.close();
-
         }
         catch(FileNotFoundException e) {
             System.out.println("File not found");
