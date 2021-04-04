@@ -28,6 +28,10 @@ class CustomerSystem{
         // Only the line below may be editted based on the parameter list and how you design the method return
         // Any necessary variables may be added to this if section, but nowhere else in the code
         enterCustomerInfo();
+        
+        /* The following is a test to make sure that the credit card validation works as planned. */
+        String creditCard = validateCreditCard(reader);
+        System.out.println(creditCard);
       }
       else if (userInput.equals(generateCustomerOption)) {
         // Only the line below may be editted based on the parameter list and how you design the method return
@@ -84,6 +88,7 @@ class CustomerSystem{
       valid = validateCreditCard(creditCardNumber);
       
     } while(!valid); 
+    System.out.println("This card is valid"); //the credit card number is valid
     return creditCardNumber;
   }
   
@@ -105,13 +110,13 @@ class CustomerSystem{
     int sum1 = 0; 
     for (int i=0; i < rev.length(); i+=2) {
       int num = rev.charAt(i); 
-      sum1 = sum1 +  num;
       
       if (num < '0' || num > '9') {
         System.out.print("ERROR: " + rev.charAt(i) + " is not a digit. Please re-enter: "); //user tried to trick the program
         return false;
       }
       num -= '0'; // -'0' is to convert from ascii code
+      sum1 = sum1 +  num;
     }
     // 3. Take the second, fourth ... and every other even digits in the reversed digits
     // a. Multiply each digit by two and sum the digits, if the answer is greater than 9 then 
@@ -133,6 +138,7 @@ class CustomerSystem{
       // 3.b) Sum the partial sums of the even digits to form sum2
       sum2 = sum2 + dbl;
     }
+
     // 4. If sum1 + sum2 ends in zero then the original number is valid, otherwise it is invalid.
     int total = sum1 + sum2;
     if (total % 10 == 0) {
