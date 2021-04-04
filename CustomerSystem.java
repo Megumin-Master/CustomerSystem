@@ -102,6 +102,8 @@ class CustomerSystem{
                 if(length > 2 && (line.substring(0,3).equals((postalCode.substring(0,3)).toUpperCase()))){
                     //The user has inputted a correct postal code.
                     works = true;
+
+                    break;
                 }
             
 
