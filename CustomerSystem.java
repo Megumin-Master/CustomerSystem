@@ -119,17 +119,20 @@ class CustomerSystem{
 
             }
 
+            //closes the BufferedReader
             csvReader.close();
         }
+        //In case the file inputted is incorrect and doesn't lead anywhere
         catch(FileNotFoundException e) {
             System.out.println("File not found");
         }
+        //In case there's an error when trying to take in an input or output
         catch(IOException e){
             System.out.println("IOException error");
         }
 
-
-        return postalCode;
+        //Returns the new value of the postal code. The postal code must be all upper case.
+        return postalCode.toUpperCase();
     }
     /*
     * This method may be edited to achieve the task however you like.
