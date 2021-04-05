@@ -166,14 +166,18 @@ class CustomerSystem{
       //Creating a variable that has the name of the csv file
       File file = new File("customerData.csv");
 
-      //Creates a file writer instance of the customerData.csv file
+      //A try/catch to make sure that teh file name is a proper directory
       try{
+        //Creates a file writer instance of the customerData.csv file
         PrintWriter csvWriter = new PrintWriter(file);
 
+        //append the following information into the file writer instance
         csvWriter.append(firstName + "," + lastName + "," + city + "," + postalCode + "," + creditCard + "\n");
   
+        //close the file writer
         csvWriter.close();
       }
+      //If the file is not a proper file, print the following.
       catch(FileNotFoundException e) {
         System.out.println("File not found");
       }
