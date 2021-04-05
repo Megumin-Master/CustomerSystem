@@ -6,6 +6,7 @@ package Luhn;
 import java.util.Scanner;
 // More packages may be imported in the space below
 
+// Package for input and output of other files. Specifically buffered reader, file reader, and file writer
 import java.io.*;
 
 class CustomerSystem{
