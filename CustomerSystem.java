@@ -36,6 +36,10 @@ class CustomerSystem{
 
                 System.out.println(postalCode);
                 */
+
+                /* The following is a test to make sure that the addData method works as planned
+                */
+                addData("David", "Han", "Thornhill", "L4J7B6", "123456789");
             }
             else if (userInput.equals(generateCustomerOption)) {
                 // Only the line below may be editted based on the parameter list and how you design the method return
@@ -152,4 +156,27 @@ class CustomerSystem{
     /*******************************************************************
     *       ADDITIONAL METHODS MAY BE ADDED BELOW IF NECESSARY         *
     *******************************************************************/
+
+    /*
+    * This method is to push all the data given by the user and transfer it into the customerData.csv.
+    * This is after the verification of the postalcode and creditCard in the enterCustomerInfo method
+    */
+    public static void addData(String firstName, String lastName, String city, String postalCode, String creditCard){
+
+      //Creating a variable that has the name of the csv file
+      File file = new File("customerData.csv");
+
+      //Creates a file writer instance of the customerData.csv file
+      try{
+        PrintWriter csvWriter = new PrintWriter(file);
+
+        csvWriter.append(firstName + "," + lastName + "," + city + "," + postalCode + "," + creditCard + "\n");
+  
+        csvWriter.close();
+      }
+      catch(FileNotFoundException e) {
+        System.out.println("File not found");
+      }
+      
+    }
 }
