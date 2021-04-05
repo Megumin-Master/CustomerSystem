@@ -38,8 +38,8 @@ class CustomerSystem{
                 */
 
                 /* The following is a test to make sure that the addData method works as planned
-                */
                 addData("David", "Han", "Thornhill", "L4J7B6", "123456789");
+                */
             }
             else if (userInput.equals(generateCustomerOption)) {
                 // Only the line below may be editted based on the parameter list and how you design the method return
