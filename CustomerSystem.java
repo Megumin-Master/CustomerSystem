@@ -149,33 +149,47 @@ class CustomerSystem{
     public static void validateCreditCard(){
     }
     /*
-    * This is creating another customer data file that the user can rename
+    * This is creating another customer data file that the user can name
     * This will not work if the customer data file name is already used and created.
     */
     public static void generateCustomerDataFile(Scanner reader){
 
+        //Prompt the user to add in the new file name
         System.out.print("What do you want to name your file? Don't forget to add .csv at the very end! ");
 
         String newFileName = reader.nextLine();
 
+        //Try block to make sure that the files are actual files in the directory
         try{
+            //Creates a file variable using the new file name
             File newFile = new File(newFileName);
 
+            //Will be used when reading each line of the customerData.csv
             String line = "";
 
+            //If the new file name isn't already used in the directory and can be created as a file
+            //create the file and write data
             if(newFile.createNewFile()) {
 
+                //Buffer read each line of customerData.csv
                 BufferedReader csvReader = new BufferedReader(new FileReader("customerData.csv"));
+                //An instance of PrintWriter for the new file that's created
                 PrintWriter csvWriter = new PrintWriter(newFile);
 
+                //While the buffered line in customerData.csv isn't blank/null, print the line into the new file
                 while((line = csvReader.readLine()) != null){
                     csvWriter.append(line + "\n");
                 }
-
+                //Confirmation the file has been created to the user.
                 System.out.println("File " + newFileName + " has been created and has the customer data.");
 
+                //Closing instances of reader and writer
                 csvReader.close();
                 csvWriter.close();
+            }
+            //else, don't create new file and exit out of the method.
+            else{
+                System.out.println("File name already exists. File was not created.");
             }
             
         }
