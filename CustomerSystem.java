@@ -43,7 +43,7 @@ class CustomerSystem{
             }
             else if (userInput.equals(generateCustomerOption)) {
                 // Only the line below may be editted based on the parameter list and how you design the method return
-                generateCustomerDataFile();
+                generateCustomerDataFile(reader);
             }
             else if(userInput.equals(exitCondition)){
                 //Conditional that makes sure that when selecting 9, the last else statement isn't called
@@ -158,8 +158,34 @@ class CustomerSystem{
 
         String newFileName = reader.nextLine();
 
-        File oldFile = new File("customerData.csv");
-        File newFile = new File(newFileName);
+        try{
+            File newFile = new File(newFileName);
+
+            String line = "";
+
+            if(newFile.createNewFile()) {
+
+                BufferedReader csvReader = new BufferedReader(new FileReader("customerData.csv"));
+                PrintWriter csvWriter = new PrintWriter(newFile);
+
+                while((line = csvReader.readLine()) != null){
+                    csvWriter.append(line + "\n");
+                }
+
+                System.out.println("File " + newFileName + " has been created and has the customer data.");
+
+                csvReader.close();
+                csvWriter.close();
+            }
+            
+        }
+        catch(FileNotFoundException e){
+            System.out.println("File not found");
+        }
+        catch(IOException e){
+            System.out.println("IO Exception");
+        }
+        
     }
 
     /*
