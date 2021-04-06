@@ -108,6 +108,8 @@ class CustomerSystem{
                     //The user has inputted a correct postal code.
                     works = true;
 
+                    //Breaks out of the while loop the moment a matching postal code has been found. If not, keep looping through all the lines until
+                    //either the end or it does find a matching postal code.
                     break;
                 }
             
@@ -166,7 +168,7 @@ class CustomerSystem{
       //Creating a variable that has the name of the csv file
       File file = new File("customerData.csv");
 
-      //A try/catch to make sure that teh file name is a proper directory
+      //A try/catch to make sure that the file name is a proper directory
       try{
         //Creates a file writer instance of the customerData.csv file
         PrintWriter csvWriter = new PrintWriter(file);
