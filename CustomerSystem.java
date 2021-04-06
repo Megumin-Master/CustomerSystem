@@ -149,21 +149,24 @@ class CustomerSystem{
     public static void validateCreditCard(){
     }
     /*
-    * This method may be edited to achieve the task however you like.
-    * The method may not nesessarily be a void return type
-    * This method may also be broken down further depending on your algorithm
+    * This is creating another customer data file that the user can rename
+    * This will not work if the customer data file name is already used and created.
     */
-    public static void generateCustomerDataFile(){
+    public static void generateCustomerDataFile(Scanner reader){
+
+        System.out.print("What do you want to name your file? Don't forget to add .csv at the very end! ");
+
+        String newFileName = reader.nextLine();
+
+        File oldFile = new File("customerData.csv");
+        File newFile = new File(newFileName);
     }
-    /*******************************************************************
-    *       ADDITIONAL METHODS MAY BE ADDED BELOW IF NECESSARY         *
-    *******************************************************************/
 
     /*
     * This method is to push all the data given by the user and transfer it into the customerData.csv.
     * This is after the verification of the postalcode and creditCard in the enterCustomerInfo method
     */
-    public static void addData(String firstName, String lastName, String city, String postalCode, String creditCard){
+    public static void addData(String firstName, String lastName, String city, String postalCode, String creditCard, String assignedValue){
 
       //Creating a variable that has the name of the csv file
       File file = new File("customerData.csv");
@@ -174,7 +177,7 @@ class CustomerSystem{
         PrintWriter csvWriter = new PrintWriter(file);
 
         //append the following information into the file writer instance
-        csvWriter.append(firstName + "," + lastName + "," + city + "," + postalCode + "," + creditCard + "\n");
+        csvWriter.append(assignedValue + "," + firstName + "," + lastName + "," + city + "," + postalCode + "," + creditCard + "\n");
   
         //close the file writer
         csvWriter.close();
