@@ -29,7 +29,7 @@ class CustomerSystem{
                 // Only the line below may be editted based on the parameter list and how you design the method return
 		        // Any necessary variables may be added to this if section, but nowhere else in the code
                 
-                enterCustomerInfo();
+                enterCustomerInfo(reader);
 
                 /* The following is a test to make sure that the postal code validation works as planned.
                 String postalCode = validatePostalCode("t00dis", reader);
@@ -74,8 +74,76 @@ class CustomerSystem{
     * The method may not nesessarily be a void return type
     * This method may also be broken down further depending on your algorithm
     */
-    public static void enterCustomerInfo() {
+    public static void enterCustomerInfo(Scanner reader) {
+      String firstName; //user enters first name
+      System.out.println("Please enter your first name: ");
+
+      firstName = reader.nextLine();
+
+      // seperating strings
+
+      String lastName; // user enters last name
+      System.out.println("Please enter your last name: ");
+
+      lastName = reader.nextLine();
+
+      // seperating strings
+
+      String city; //user enters their city
+      System.out.println("Please enter which city you live in: ");
+
+      city = reader.nextLine();
+
+      // seperating strings
+
+      String postalCode; //user enters their postal code
+      System.out.println("Please enter your postal code: ");
+
+      postalCode = reader.nextLine();
+
+      //putting the code through the postal code verification, returning the postal code
+      //if it was valid, otherwise, keep inputting until a proper input is done
+      postalCode = validatePostalCode(postalCode, reader);
+
+      String creditCardNumber = enterCreditCard(reader);
+
+      //creating the assigned value
+      String file = "customerData.csv";
+      String line = "";
+      String lastValue = "0";
+      String seperator = ",";
+      int lastNumber = 1;
+      String assignedValue = "";
+
+      try {
+        BufferedReader csvReader = new BufferedReader(new FileReader(file));
+        while((line = csvReader.readLine()) !=null){
+          lastValue = "";
+          for(int i = 0; seperator.equals(line.substring(i,(i+1)))==false;i++){
+            lastValue = lastValue + line.substring(i,i+1);
+          }
+        }
+        if(lastValue.equals("0")){
+          assignedValue = "1";
+        }
+        else{
+          lastNumber = Integer.parseInt(lastValue);
+          lastNumber = lastNumber + 1;
+          assignedValue = Integer.toString(lastNumber);
+        }
+
+        csvReader.close();
+      }
+      catch(FileNotFoundException e){
+        System.out.println("file not found");
+      }
+      catch(IOException e){
+        System.out.println("Input/Output exception");
+      }
+
+      addData(assignedValue, firstName, lastName, city, postalCode, creditCardNumber);
     }
+
     /*
     * This is the method to check if the postal code is validated or not
     * If not validated, it will ask for another proper postal code
@@ -142,12 +210,83 @@ class CustomerSystem{
         return postalCode.toUpperCase();
     }
     /*
-    * This method may be edited to achieve the task however you like.
-    * The method may not nesessarily be a void return type
-    * This method may also be broken down further depending on your algorithm
+    * This method will validate credit card number:
+    * 1. Must be at least 9 digits in length
+    * 2. The digits must pass the Luhn algorithm
     */
-    public static void validateCreditCard(){
+    public static String enterCreditCard(Scanner reader){
+      String creditCardNumber;
+
+      boolean valid;
+
+      System.out.println("Please enter your credit card number (DIGITS ONLY. DON'T ENTER SPACES): "); //user enters credit card number
+
+      do {
+        creditCardNumber = reader.nextLine();
+        valid = validateCreditCard(creditCardNumber);
+      } while(!valid);
+      System.out.println("This card is valid"); //the credit card number is valid
+      return creditCardNumber;
     }
+
+    private static Boolean validateCreditCard(String creditCardNumber) {
+      //Check if it has at least 9 digits
+      if (creditCardNumber.length() < 9){
+        System.out.print("ERROR: There is less than 9 numbers, it is invalid. Please try again: "); //user tried to trick the program
+        return false;
+      }
+
+      //The digits must pass the Luhn algorithm.
+      //1. reverse the order of the digits
+      String rev = "";
+      for (int i=0; i < creditCardNumber.length(); i++) {
+        char c = creditCardNumber.charAt(i);
+        rev = c + rev;
+      }
+      //2. Perform a partial sum of the odd digits
+      int sum1 = 0;
+      for (int i=0; i < rev.length(); i+=2) {
+        int num = rev.charAt(i);
+
+        if(num < '0' || num > '9') {
+          System.out.print("ERROR: " + rev.charAt(i) + " is not a digit. Please re-enter: "); //user tried to trick the program
+          return false;
+        }
+        num -= '0'; 
+        sum1 = sum1 + num;
+      }
+      //3. Take the second, fourth ... and every other even digits in the reversed digits
+      //a. Multiply each digit by two and sum the digits, if the answer is greater than 9 then
+      // add the 2 digits to form partial sums for the even digits
+      int sum2 = 0;
+      for (int i=1; i < rev.length(); i+=2) {
+        int num = rev.charAt(i);
+
+        if(num < '0' || num > '9') {
+          System.out.println("ERROR: " + rev.charAt(i) + " is not a digit. Please re-enter"); //user tried to trick the program
+          return false;
+        }
+        num -= '0';
+
+        int db1 = num*2;
+        if(db1 > 9) {
+          db1 -=9;
+        }
+        //3.b) Sum the partial sums of the even digits to form sum2
+        sum2 = sum2 + db1;
+      }
+
+      //4. If sum1 + sum2 ends in zero then the original number is valid, otherwise it is invalid.
+      int total = sum1 + sum2;
+      if(total % 10 == 0) {
+        return true;
+      }
+      else{
+        System.out.print("ERROR: The credit card is invalid, didn't pass Luhn algorithm. Please try again: "); //user has to re-enter the number
+        return false;
+      }
+    }
+
     /*
     * This is creating another customer data file that the user can name
     * This will not work if the customer data file name is already used and created.
@@ -206,17 +345,19 @@ class CustomerSystem{
     * This method is to push all the data given by the user and transfer it into the customerData.csv.
     * This is after the verification of the postalcode and creditCard in the enterCustomerInfo method
     */
-    public static void addData(String firstName, String lastName, String city, String postalCode, String creditCard, String assignedValue){
+    public static void addData(String assignedValue, String firstName, String lastName, String city, String postalCode, String creditCard){
 
       //Creating a variable that has the name of the csv file
       File file = new File("customerData.csv");
 
       //A try/catch to make sure that the file name is a proper directory
       try{
+
         //Creates a file writer instance of the customerData.csv file
-        PrintWriter csvWriter = new PrintWriter(file);
+        FileWriter csvWriter = new FileWriter(file, true);
 
         //append the following information into the file writer instance
+        
         csvWriter.append(assignedValue + "," + firstName + "," + lastName + "," + city + "," + postalCode + "," + creditCard + "\n");
   
         //close the file writer
@@ -225,6 +366,9 @@ class CustomerSystem{
       //If the file is not a proper file, print the following.
       catch(FileNotFoundException e) {
         System.out.println("File not found");
+      }
+      catch(IOException e) {
+        System.out.println("Input/Output Exception");
       }
       
     }
