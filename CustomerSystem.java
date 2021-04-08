@@ -332,9 +332,11 @@ class CustomerSystem{
             }
             
         }
+        //If the file is not found, print the following
         catch(FileNotFoundException e){
             System.out.println("File not found");
         }
+        //If there's an error on the input/output method
         catch(IOException e){
             System.out.println("IO Exception");
         }
@@ -367,6 +369,7 @@ class CustomerSystem{
       catch(FileNotFoundException e) {
         System.out.println("File not found");
       }
+      //If there's an error with the input/output method, print the following
       catch(IOException e) {
         System.out.println("Input/Output Exception");
       }
