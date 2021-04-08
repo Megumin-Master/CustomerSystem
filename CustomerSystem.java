@@ -78,6 +78,7 @@ class CustomerSystem{
       String firstName; //user enters first name
       System.out.println("Please enter your first name: ");
 
+      // nextLine takes information from firstName
       firstName = reader.nextLine();
 
       // seperating strings
@@ -85,6 +86,7 @@ class CustomerSystem{
       String lastName; // user enters last name
       System.out.println("Please enter your last name: ");
 
+      // nextLine takes information from lastName
       lastName = reader.nextLine();
 
       // seperating strings
@@ -92,6 +94,7 @@ class CustomerSystem{
       String city; //user enters their city
       System.out.println("Please enter which city you live in: ");
 
+      // nextLine takes information from city
       city = reader.nextLine();
 
       // seperating strings
@@ -99,45 +102,47 @@ class CustomerSystem{
       String postalCode; //user enters their postal code
       System.out.println("Please enter your postal code: ");
 
+      // nextLine takes information from postalCode 
       postalCode = reader.nextLine();
 
       //putting the code through the postal code verification, returning the postal code
       //if it was valid, otherwise, keep inputting until a proper input is done
       postalCode = validatePostalCode(postalCode, reader);
 
+      // calling enterCreditCard method to enter and validate credit card
       String creditCardNumber = enterCreditCard(reader);
 
       //creating the assigned value
-      String file = "customerData.csv";
-      String line = "";
+      String file = "customerData.csv";  //initializing variables needed for the following code
+      String line = "";  
       String lastValue = "0";
       String seperator = ",";
-      int lastNumber = 1;
+      int lastNumber = 1;  
       String assignedValue = "";
 
-      try {
+      try {   //a try block to make sure the files we are reading, are actually there 
         BufferedReader csvReader = new BufferedReader(new FileReader(file));
-        while((line = csvReader.readLine()) !=null){
+        while((line = csvReader.readLine()) !=null){  //readLine takes information from line
           lastValue = "";
           for(int i = 0; seperator.equals(line.substring(i,(i+1)))==false;i++){
-            lastValue = lastValue + line.substring(i,i+1);
+            lastValue = lastValue + line.substring(i,i+1); 
           }
-        }
-        if(lastValue.equals("0")){
+        } 
+        if(lastValue.equals("0")){  //if statement for lastValue
           assignedValue = "1";
         }
-        else{
+        else{  //if assignedValue is else, then lastNumber = lastNumber + 1
           lastNumber = Integer.parseInt(lastValue);
           lastNumber = lastNumber + 1;
-          assignedValue = Integer.toString(lastNumber);
+          assignedValue = Integer.toString(lastNumber); //chaging it back from Integer back to String
         }
 
-        csvReader.close();
+        csvReader.close(); //closing csvReader
       }
-      catch(FileNotFoundException e){
+      catch(FileNotFoundException e){  //error exception
         System.out.println("file not found");
       }
-      catch(IOException e){
+      catch(IOException e){ 
         System.out.println("Input/Output exception");
       }
 
