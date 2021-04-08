@@ -31,13 +31,13 @@ class CustomerSystem{
                 
                 enterCustomerInfo(reader);
 
-                /* The following is a test to make sure that the postal code validation works as planned.
+                /* The following is a test to make sure that the postal code validation works as planned. *Prototype*
                 String postalCode = validatePostalCode("t00dis", reader);
 
                 System.out.println(postalCode);
                 */
 
-                /* The following is a test to make sure that the addData method works as planned
+                /* The following is a test to make sure that the addData method works as planned *Prototype*
                 addData("David", "Han", "Thornhill", "L4J7B6", "123456789");
                 */
             }
